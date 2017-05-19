@@ -13,6 +13,7 @@ import Player from '../components/Player';
 import store from '../store'
 
 import {play, pause, load, startSong, toggle, toggleOne, next, prev} from '../action-creators/player'
+import {setAlbums, fetchAlbums} from '../action-creators/albums';
 
 import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
 
@@ -35,6 +36,9 @@ export default class AppContainer extends Component {
   }
 
   componentDidMount () {
+
+    //use this to replace ajax requests below
+    //store.dispatch(fetchAlbums());
 
     Promise
       .all([
@@ -60,8 +64,9 @@ export default class AppContainer extends Component {
   }
 
   onLoad (albums, artists, playlists) {
+    store.dispatch(setAlbums(convertAlbums(albums)))
+
     this.setState({
-      albums: convertAlbums(albums),
       artists: artists,
       playlists: playlists
     });
